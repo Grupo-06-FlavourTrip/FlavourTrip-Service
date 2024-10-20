@@ -1,4 +1,5 @@
 package com.FlavourTrip.tour.domain.model.commands;
 
-public class DeleteTourCommand {
+public record DeleteTourCommand(Long tourId) {
 }
+

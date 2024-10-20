@@ -18,6 +18,5 @@ public record AddTourCommand(String titleTour,
                              String date,
                              String description,
                              List<String> times,
-                             String hours,
-                             Long restaurantId) {
+                             String hours) {
 }
