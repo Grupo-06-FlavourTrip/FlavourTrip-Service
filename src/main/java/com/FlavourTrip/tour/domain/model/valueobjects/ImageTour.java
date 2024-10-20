@@ -1,12 +1,12 @@
-package com.FlavourTrip.restaurant.domain.model.valueobjects;
+package com.FlavourTrip.tour.domain.model.valueobjects;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public record Image(String imageUrl) {
+public record ImageTour(String imageUrl) {
     private static final Pattern IMAGE_URL_PATTERN = Pattern.compile("^https?://.*\\.(png|jpg)$");
 
-    public Image {
+    public ImageTour {
         if (!isValidImageUrl(imageUrl)) {
             throw new IllegalArgumentException("URL de imagen no es PNG o JPG");
         }
