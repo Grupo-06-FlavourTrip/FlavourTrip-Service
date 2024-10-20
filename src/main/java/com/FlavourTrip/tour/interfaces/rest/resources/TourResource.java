@@ -16,5 +16,6 @@ public record TourResource(Long id, String titleTour,
                            String date,
                            String description,
                            List<String> times,
-                           String hours) {
+                           String hours,
+                           Long restaurantId) {
 }

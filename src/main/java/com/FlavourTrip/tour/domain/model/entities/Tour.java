@@ -1,5 +1,6 @@
 package com.FlavourTrip.tour.domain.model.entities;
 
+import com.FlavourTrip.restaurant.domain.model.entities.Restaurant;
 import com.FlavourTrip.tour.domain.model.valueobjects.ImageTour;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -48,10 +49,13 @@ public class Tour {
     private List<String> times;
 
     private String hours;
+    @ManyToOne
+    @JoinColumn(name= "restaurant_id")
+    private Restaurant restaurantId;
 
     public Tour() {}
 
-    public Tour updatedInformation(String titleTour, ImageTour imageTour, String instructor, Long rating, Long nRatings, Long minPrice, Long currentPeople, Long maxPeople, String language, Long duration, List<String> itemsIncluded, String date, String description, List<String> times, String hours){
+    public Tour updatedInformation(String titleTour, ImageTour imageTour, String instructor, Long rating, Long nRatings, Long minPrice, Long currentPeople, Long maxPeople, String language, Long duration, List<String> itemsIncluded, String date, String description, List<String> times, String hours, Restaurant restaurantId){
         this.titleTour = titleTour;
         this.imageTour = imageTour;
         this.instructor = instructor;
@@ -67,10 +71,11 @@ public class Tour {
         this.description = description;
         this.times = times;
         this.hours = hours;
+        this.restaurantId = restaurantId;
         return this;
     }
 
-    public Tour(String titleTour, ImageTour imageTour, String instructor, Long rating, Long nRatings, Long minPrice, Long currentPeople, Long maxPeople, String language, Long duration, List<String> itemsIncluded, String date, String description, List<String> times, String hours) {
+    public Tour(String titleTour, ImageTour imageTour, String instructor, Long rating, Long nRatings, Long minPrice, Long currentPeople, Long maxPeople, String language, Long duration, List<String> itemsIncluded, String date, String description, List<String> times, String hours, Restaurant restaurantId) {
         this.titleTour = titleTour;
         this.imageTour = imageTour;
         this.instructor = instructor;
@@ -86,5 +91,6 @@ public class Tour {
         this.description = description;
         this.times = times;
         this.hours = hours;
+        this.restaurantId = restaurantId;
     }
 }

@@ -22,6 +22,7 @@ public class CreateTourCommandFromResourceAssembler {
                 resource.date(),
                 resource.description(),
                 resource.times(),
-                resource.hours());
+                resource.hours(),
+                resource.restaurantId());
     }
 }

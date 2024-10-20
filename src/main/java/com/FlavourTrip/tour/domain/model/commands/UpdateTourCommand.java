@@ -19,5 +19,6 @@ public record UpdateTourCommand(Long tourId,
                                 String date,
                                 String description,
                                 List<String> times,
-                                String hours) {
+                                String hours,
+                                Long restaurantId) {
 }

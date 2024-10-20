@@ -1,5 +1,8 @@
 package com.FlavourTrip.tour.application.internal.commandservices;
 
+import com.FlavourTrip.restaurant.domain.model.entities.Restaurant;
+import com.FlavourTrip.restaurant.infrastructure.persistence.jpa.repositories.RestaurantRepository;
+import com.FlavourTrip.tour.domain.model.commands.AddRestaurantToTourCommand;
 import com.FlavourTrip.tour.domain.model.commands.AddTourCommand;
 import com.FlavourTrip.tour.domain.model.commands.DeleteTourCommand;
 import com.FlavourTrip.tour.domain.model.commands.UpdateTourCommand;
@@ -14,12 +17,17 @@ import java.util.Optional;
 public class TourCommandServiceImpl implements TourCommandService {
     private final TourRepository tourRepository;
 
-    public TourCommandServiceImpl(TourRepository tourRepository) {
-        this.tourRepository = tourRepository;
-    }
+    private final RestaurantRepository restaurantRepository;
 
+    public TourCommandServiceImpl(TourRepository tourRepository, RestaurantRepository restaurantRepository) {
+        this.tourRepository = tourRepository;
+        this.restaurantRepository = restaurantRepository;
+    }
     @Override
     public Long handle(AddTourCommand command){
+        Restaurant restaurantId = restaurantRepository.findById(command.restaurantId())
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));
+
         Tour tour = new Tour(
                 command.titleTour(),
                 command.imageTour(),
@@ -35,7 +43,8 @@ public class TourCommandServiceImpl implements TourCommandService {
                 command.date(),
                 command.description(),
                 command.times(),
-                command.hours()
+                command.hours(),
+                restaurantId
         );
         tourRepository.save(tour);
         return tour.getId();
@@ -47,6 +56,9 @@ public class TourCommandServiceImpl implements TourCommandService {
         if (result.isEmpty())
             throw new IllegalArgumentException("Tour does not exist");
         var tourToUpdate = result.get();
+
+        Restaurant restaurantId = restaurantRepository.findById(command.restaurantId())
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));
 
         try {
             var updatedTour = tourRepository.save(tourToUpdate.updatedInformation(command.titleTour(),
@@ -63,11 +75,24 @@ public class TourCommandServiceImpl implements TourCommandService {
                     command.date(),
                     command.description(),
                     command.times(),
-                    command.hours()));
+                    command.hours(),
+                    restaurantId));
             return Optional.of(updatedTour);
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while updating tour: " + e.getMessage());
         }
+    }
+    @Override
+    public Long handle(AddRestaurantToTourCommand command) {
+        Tour tour = tourRepository.findById(command.tourId())
+                .orElseThrow(() -> new RuntimeException("Tour not found"));
+
+        Restaurant restaurantId = restaurantRepository.findById(command.restaurantId().getId())
+                .orElseThrow(() -> new RuntimeException("Restaurant not found"));
+
+        tour.setRestaurantId(restaurantId);
+        tourRepository.save(tour);
+        return tour.getId();
     }
 
     @Override

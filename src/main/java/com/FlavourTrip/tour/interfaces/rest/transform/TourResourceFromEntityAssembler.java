@@ -7,6 +7,7 @@ import org.apache.commons.text.StringEscapeUtils;
 public class TourResourceFromEntityAssembler {
 
     public static TourResource toResourceFromEntity(Tour entity) {
+        Long restaurantId = (entity.getRestaurantId() != null) ? entity.getRestaurantId().getId() : null;
         String imageUrl = entity.getImageTour().imageUrl();
         String sanitizedImageUrl = StringEscapeUtils.escapeHtml4(imageUrl);
         return new TourResource(entity.getId(),
@@ -24,6 +25,7 @@ public class TourResourceFromEntityAssembler {
                 entity.getDate(),
                 entity.getDescription(),
                 entity.getTimes(),
-                entity.getHours());
+                entity.getHours(),
+                restaurantId);
     }
 }
