@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/Api/v1/TasteTour/restaurant", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value="/Api/v1/FlavourTrip/restaurant", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name="Restaurant", description = "Restaurant Managment Endpoints")
 public class RestaurantController {
     private final RestaurantCommandService restaurantCommandService;
